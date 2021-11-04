@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+     #print table,th,td{
+        
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        text-align: center;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      table th{
+        text-align: center;
+        text-decoration: cornsilk;
+        color:white;
+        background-color:indianred;
+        font-style: oblique;
+        
+        padding: 20px;
+      }
+      td{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 13px;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+      }
+     
+      tr:nth-child(even){
+        background-color: rgb(245, 245, 245);
+      }
+    </style>
+
+  </head>
+  <body>
+    <center><h2>DATA FROM SERVER</h2></center> 
+    <center><button onclick="runAjax()" id="button">get data</button></center>
+    <div id="print"></div>
+    <script>
+      function runAjax(){
+        document.getElementById("button").style.visibility='hidden';
+        var txt=""
+        var array;
+        var xhtpp=new XMLHttpRequest();
+        xhtpp.onreadystatechange=function(){
+          if(this.readyState==4 && this.status==200){
+           array=JSON.parse(this.responseText);
+           document.getElementById("print").innerHTML=txt += '<table><tr><th>USER-ID</th><th>ID</th><th>TITLE</th><th>BODY</th></tr>';
+            for(let i=0;i<array.length;i++){
+              document.getElementById("print").innerHTML=txt += '<tr><td>'+array[i].userId+'</td><td>'+array[i].id+'</td><td>'+array[i].title+'</td><td>'+array[i].body+'</td></tr>';
+            }
+            document.getElementById("print").innerHTML= txt +='</table>';
+          }
+
+        }
+        
+        xhtpp.open("GET","https://jsonplaceholder.typicode.com/posts",true);
+        xhtpp.send();
+      }
+     
+    </script>
+
+  </body>
+
+</html>
